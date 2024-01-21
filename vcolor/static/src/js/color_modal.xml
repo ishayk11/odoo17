@@ -1,0 +1,43 @@
+<template xml:space="preserve">
+    <t t-name="modal_template">
+        <div class="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Types of <t t-esc="V_name"/></h5>
+                        <a id="modalCloseButton" type="button" class="close" data-dismiss="modal">
+                            <i class="fa fa-times" aria-hidden="true"/>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="image-grid">
+                            <t t-foreach="model" t-as="item" t-key="item.id">
+                                <div class="image-item" t-att-data-item-name="item.name" t-att-data-item-id="item.id" >
+                                    <img t-att-src="'/web/image?model=vcolor.vcolor&amp;field=image&amp;id='+item.id" alt="Image"/>
+                                    <li class="image-name"><t t-esc="item.name"/></li>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modalCloseButton" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+    <t t-name="image_template">
+        <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <t t-if="modeli.length">
+                <img t-att-src="'/web/image?model=vcolor.vcolor&amp;field=image&amp;id='+modeli[0].id" alt="Image" style="height: 80px; width: 150px; border-radius: 8px; box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);" />
+                <li class="test" style="list-style: none; margin: 0; padding: 0; text-align: center;">
+                    <t class="side_name" t-esc="modeli[0].name"/>
+                </li>
+            </t>
+        </div>
+    </t>
+</template>
+<!-- <template xml:space="preserve">
+
+</template> -->
+

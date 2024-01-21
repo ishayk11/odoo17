@@ -1,0 +1,184 @@
+                <div class="modal " id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <a type="button" class="close" data-dismiss="modal">
+                                    <i class="fa fa-times" aria-hidden="true"/>
+                                </a>
+                            </div>
+                            <!-- Modal Header end-->
+                            <!-- Modal body -->
+                            <div class="modal-body mt-0 pt-0">
+                                <!--  Product Details-->
+                                <div class="d-flex flex-row" style="padding-top:5px;">
+                                    <div class="popup-item text-left float-left" style="width:100%">
+                                        <h2 class="mb-0 pb-0">
+                                            <t t-esc="product.name"/>
+                                        </h2>
+                                        <p class="p-heading-description">
+                                            <t t-esc="product.default_code"/>
+                                        </p>
+                                    </div>
+                                    <div class="popup-item text-right float-right" style="width:100%">
+                                        <t t-if="product.image_1920">
+                                            <img t-att-src="image_data_uri(product.image_1920)"
+                                                 style="width:50% height:50%;"/>
+                                        </t>
+                                        <t t-else="">
+                                            <img t-att-src="'/web/image?model=product.template&amp;id=0'"
+                                                 style="width:50% height:50%;"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div id="attributes">
+                                    <h6 style="padding-bottom:15px;">PRODUCT OPTIONS:</h6>
+                                    <t t-set="index" t-value="1"/>
+                                    <t t-foreach="product.attribute_line_ids" t-as="p_attr">
+                                        <t t-if="p_attr.attribute_id.display_type == 'swatch'">
+                                            <div class="attribute_container">
+                                                <div class="Divider" style="padding-bottom:10px; padding-top:15px">
+                                                    <div class="Divider-text" t-att-data-attr-id="p_attr.attribute_id.id">
+                                                        <t t-esc="p_attr.attribute_id.name.upper()"/>
+                                                    </div>
+                                                </div>
+                                                <!-- Attributes -->
+
+                                                <div class="d-flex flex-row" id="swatch_main_attributes">
+                                                    <div class="modal-body mt-0 pt-0 swatch_attribute_selection">
+                                                        <div class="container-select-product-option" style="display: flex;">
+                                                            <div class="select-product-img float-left" t-if="p_attr.attribute_id.image_visibility">
+                                                                <img src="/web/image?model=product.template&amp;id=0"
+                                                                     style="width: 94px;"
+                                                                     t-attf-id="main_attribute_image"/>
+                                                            </div>
+                                                            <div class="select-finished-dropdown">
+                                                                <div class="form-group" style="padding-left: 30px;">
+                                                                    <label for="basic-url" class="form-label badge text-bg-primary"><t t-esc="p_attr.attribute_id.website_label"/></label>
+                                                                    <select class="form-control"
+                                                                            id="main_attributes">
+                                                                        <option value="no_choice" selected="selected">
+                                                                            <small>Make a choice</small>
+                                                                        </option>
+                                                                        <t t-foreach="p_attr.product_template_value_ids"
+                                                                           t-as="p_attr_value">
+                                                                            <t t-if="p_attr_value.product_attribute_value_id.swatch_image">
+                                                                                <t t-if="p_attr_value.price_extra">
+                                                                                    <option t-att-value="p_attr_value.id"
+                                                                                            t-att-price="p_attr_value.price_extra"
+                                                                                            t-att-image="image_data_uri(p_attr_value.product_attribute_value_id.swatch_image)">
+                                                                                        <t t-esc="p_attr_value.name"/>
+                                                                                        -
+                                                                                        <t t-esc="p_attr_value.price_extra"/>
+                                                                                    </option>
+                                                                                </t>
+                                                                                <t t-else="">
+                                                                                    <option t-att-value="p_attr_value.id"
+                                                                                            price="0"
+                                                                                            t-att-image="image_data_uri(p_attr_value.product_attribute_value_id.swatch_image)">
+                                                                                        <t t-esc="p_attr_value.name"/>
+                                                                                        - 0
+                                                                                    </option>
+                                                                                </t>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <t t-if="p_attr_value.price_extra">
+                                                                                    <option t-att-value="p_attr_value.id"
+                                                                                            t-att-price="p_attr_value.price_extra">
+                                                                                        <t t-esc="p_attr_value.name"/>
+                                                                                        -
+                                                                                        <t t-esc="p_attr_value.price_extra"/>
+                                                                                    </option>
+                                                                                </t>
+                                                                                <t t-else="">
+                                                                                    <option t-att-value="p_attr_value.id"
+                                                                                            price="0">
+                                                                                        <t t-esc="p_attr_value.name"/>
+                                                                                        - 0
+                                                                                    </option>
+                                                                                </t>
+                                                                            </t>
+                                                                        </t>
+                                                                    </select>
+
+                                                                    <div class="text-right">
+                                                                        <a class="btn btn-link text-muted my-2"
+                                                                           style="color:#000; text-decoration: none;"
+                                                                           data-toggle="collapse"
+                                                                           t-attf-data-target="#collapse_{{index}}"
+                                                                           aria-expanded="true"
+                                                                           t-attf-aria-controls="#collapse_1">Show
+                                                                            Attributes
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="container-see-finishers float-right w-100">
+                                                            <div id="accordion">
+                                                                <div class="card">
+                                                                    <div t-attf-id="collapse_{{index}}"
+                                                                         class="collapse"
+                                                                         aria-labelledby="headingOne"
+                                                                         data-parent="#accordion">
+
+                                                                        <div class="card-body">
+                                                                            <div class="hide-finishers-container">
+                                                                                <ul>
+                                                                                    <t t-foreach="p_attr.product_template_value_ids"
+                                                                                       t-as="p_attr_value">
+                                                                                        <li style="padding-top:10px;height: fit-content;"
+                                                                                            class="swatch_attribute_li"
+                                                                                            t-att-data-att_id="p_attr_value.id"
+                                                                                            t-att-data-price="p_attr_value.price_extra">
+                                                                                            <div class="finishers-item" t-if="p_attr.attribute_id.image_visibility">
+                                                                                                <t t-if="p_attr_value.product_attribute_value_id.swatch_image">
+                                                                                                    <img t-att-src="image_data_uri(p_attr_value.product_attribute_value_id.swatch_image)"
+                                                                                                         style="width: 180px; height: 180px;"/>
+                                                                                                </t>
+                                                                                                <t t-else="">
+                                                                                                    <img t-att-src="'/web/image?model=product.template&amp;id='"
+                                                                                                         style="width: 180px; height: 180px;"/>
+                                                                                                </t>
+                                                                                            </div>
+                                                                                            <div class="row content-finishers-item">
+                                                                                                <div class="col text-left">
+                                                                                                    <t t-esc="p_attr_value.name"/>
+                                                                                                </div>
+                                                                                                <div class="col text-right">
+                                                                                                    <t t-esc="p_attr_value.price_extra"/>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </li>
+                                                                                    </t>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <t t-set="index" t-value="index+1"/>
+                                                <div id="swatch_sub_attributes"/>
+                                                <div id="swatch_base_attributes"/>
+                                            </div>
+                                            <!-- Attributes -->
+                                        </t>
+                                    </t>
+                                </div>
+                            </div>
+                            <!-- Modal body end-->
+                            <!-- Modal footer -->
+                            <div class="modal-footer w-100 mt-3 text-right">
+                                <a class="btn btn-danger" id="option_add" data-dismiss="modal">ADD
+                                </a>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE
+                                </button>
+                            </div>
+                            <!-- Modal footer end-->
+                        </div>
+                    </div>
+                </div>

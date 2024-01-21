@@ -1,0 +1,21 @@
+.image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.image-item {
+    text-align: center;
+    margin: 10px;
+}
+
+.image-item img {
+    width: 100px; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+    border-radius: 5px;
+}
+
+.image-name {
+    margin-top: 5px;
+}
+

@@ -1,0 +1,95 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record id="vcolor_list" model="ir.ui.view">
+      <field name="name">vcolor.list</field>
+      <field name="model">vcolor.vcolor</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="variant_id"/>
+          <field name="name"/>
+          <field name="image" widget="image" size="small"/>
+          <field name="brand"/>
+          <field name="description"/>
+        </tree>
+      </field>
+    </record>
+    
+    <record id="vcolor_form" model="ir.ui.view">
+      <field name="name">vcolor.form.view</field>
+      <field name="model">vcolor.vcolor</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <group>
+              <field name="variant_id"/>
+              <field name="name"/>
+              <field name="image" widget="image" size="small"/> 
+              <field name="brand"/> 
+              <field name="description"/>
+             </group>
+          </group>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record id="vcolor_action_window" model="ir.actions.act_window">
+      <field name="name">vcolor</field>
+      <field name="res_model">vcolor.vcolor</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="vcolor_root_menu" 
+              action="vcolor_action_window" 
+              name="Variant's color"
+              parent="sale.product_menu_catalog"
+    />
+
+    <record id="view_custom_product_attribute_form" model="ir.ui.view">
+      <field name="name">product.attribute.custom.form</field>
+      <field name="model">product.attribute</field>
+      <field name="inherit_id" ref="product.product_attribute_view_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='default_extra_price']" position="before">
+            <field name="color_ids" string="Colors Ids"/>
+        </xpath>
+        <xpath expr="//field[@name='create_variant']" position="after">
+            <field name="has_color" widget="boolean" string="Has Color?"/>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- <record id="view_custom_product_attribute_form" model="ir.ui.view">
+      <field name="name">product.attribute.custom.form</field>
+      <field name="model">product.attribute</field>
+      <field name="inherit_id" ref="product.product_attribute_view_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='create_variant']" position="after">
+            <field name="has_color" widget="boolean" string="Has Color?"/>
+        </xpath>
+      </field>
+    </record> -->
+
+
+    <!-- server action to the one above -->
+
+    <!-- <record model="ir.actions.server" id="vcolor_action">
+      <field name="name">vcolor server</field>
+      <field name="model_id" ref="model_vcolor_vcolor"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record> -->
+
+
+  </data>
+</odoo>
